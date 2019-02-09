@@ -24,7 +24,7 @@ public class task_2_1Parser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, null, null, null, null, "','", "' '", "'\n'"
+		null, null, null, null, null, "','", "' '"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "REG", "COMMAND", "IMMEDIATE", "MEMORY", "COMMA", "SPACE", "NEWLINE"
@@ -135,17 +135,20 @@ public class task_2_1Parser extends Parser {
 
 	public static class CommandContext extends ParserRuleContext {
 		public TerminalNode COMMAND() { return getToken(task_2_1Parser.COMMAND, 0); }
-		public List<TerminalNode> REG() { return getTokens(task_2_1Parser.REG); }
-		public TerminalNode REG(int i) {
-			return getToken(task_2_1Parser.REG, i);
-		}
-		public TerminalNode COMMA() { return getToken(task_2_1Parser.COMMA, 0); }
 		public List<TerminalNode> SPACE() { return getTokens(task_2_1Parser.SPACE); }
 		public TerminalNode SPACE(int i) {
 			return getToken(task_2_1Parser.SPACE, i);
 		}
+		public TerminalNode COMMA() { return getToken(task_2_1Parser.COMMA, 0); }
+		public List<TerminalNode> REG() { return getTokens(task_2_1Parser.REG); }
+		public TerminalNode REG(int i) {
+			return getToken(task_2_1Parser.REG, i);
+		}
+		public List<TerminalNode> MEMORY() { return getTokens(task_2_1Parser.MEMORY); }
+		public TerminalNode MEMORY(int i) {
+			return getToken(task_2_1Parser.MEMORY, i);
+		}
 		public TerminalNode IMMEDIATE() { return getToken(task_2_1Parser.IMMEDIATE, 0); }
-		public TerminalNode MEMORY() { return getToken(task_2_1Parser.MEMORY, 0); }
 		public CommandContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -157,50 +160,91 @@ public class task_2_1Parser extends Parser {
 		enterRule(_localctx, 2, RULE_command);
 		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(14);
 			match(COMMAND);
-			setState(16);
+			setState(18);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(15);
+					match(SPACE);
+					}
+					} 
+				}
+				setState(20);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			}
+			setState(22);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
-				setState(15);
-				match(REG);
+				setState(21);
+				_la = _input.LA(1);
+				if ( !(_la==REG || _la==MEMORY) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
 				}
 				break;
 			}
-			setState(19);
+			setState(27);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(24);
+					match(SPACE);
+					}
+					} 
+				}
+				setState(29);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			}
+			setState(31);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COMMA) {
 				{
-				setState(18);
+				setState(30);
 				match(COMMA);
 				}
 			}
 
-			setState(24);
+			setState(36);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SPACE) {
 				{
 				{
-				setState(21);
+				setState(33);
 				match(SPACE);
 				}
 				}
-				setState(26);
+				setState(38);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(28);
+			setState(40);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << REG) | (1L << IMMEDIATE) | (1L << MEMORY))) != 0)) {
 				{
-				setState(27);
+				setState(39);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << REG) | (1L << IMMEDIATE) | (1L << MEMORY))) != 0)) ) {
 				_errHandler.recoverInline(this);
@@ -240,7 +284,7 @@ public class task_2_1Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(30);
+			setState(42);
 			match(NEWLINE);
 			}
 		}
@@ -256,17 +300,20 @@ public class task_2_1Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t#\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\3\2\3\2\3\2\7\2\f\n\2\f\2\16\2\17\13\2\3\3\3\3\5\3\23\n\3\3"+
-		"\3\5\3\26\n\3\3\3\7\3\31\n\3\f\3\16\3\34\13\3\3\3\5\3\37\n\3\3\4\3\4\3"+
-		"\4\2\2\5\2\4\6\2\3\4\2\3\3\5\6\2$\2\r\3\2\2\2\4\20\3\2\2\2\6 \3\2\2\2"+
-		"\b\t\5\4\3\2\t\n\5\6\4\2\n\f\3\2\2\2\13\b\3\2\2\2\f\17\3\2\2\2\r\13\3"+
-		"\2\2\2\r\16\3\2\2\2\16\3\3\2\2\2\17\r\3\2\2\2\20\22\7\4\2\2\21\23\7\3"+
-		"\2\2\22\21\3\2\2\2\22\23\3\2\2\2\23\25\3\2\2\2\24\26\7\7\2\2\25\24\3\2"+
-		"\2\2\25\26\3\2\2\2\26\32\3\2\2\2\27\31\7\b\2\2\30\27\3\2\2\2\31\34\3\2"+
-		"\2\2\32\30\3\2\2\2\32\33\3\2\2\2\33\36\3\2\2\2\34\32\3\2\2\2\35\37\t\2"+
-		"\2\2\36\35\3\2\2\2\36\37\3\2\2\2\37\5\3\2\2\2 !\7\t\2\2!\7\3\2\2\2\7\r"+
-		"\22\25\32\36";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t/\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\3\2\3\2\3\2\7\2\f\n\2\f\2\16\2\17\13\2\3\3\3\3\7\3\23\n\3\f"+
+		"\3\16\3\26\13\3\3\3\5\3\31\n\3\3\3\7\3\34\n\3\f\3\16\3\37\13\3\3\3\5\3"+
+		"\"\n\3\3\3\7\3%\n\3\f\3\16\3(\13\3\3\3\5\3+\n\3\3\4\3\4\3\4\2\2\5\2\4"+
+		"\6\2\4\4\2\3\3\6\6\4\2\3\3\5\6\2\62\2\r\3\2\2\2\4\20\3\2\2\2\6,\3\2\2"+
+		"\2\b\t\5\4\3\2\t\n\5\6\4\2\n\f\3\2\2\2\13\b\3\2\2\2\f\17\3\2\2\2\r\13"+
+		"\3\2\2\2\r\16\3\2\2\2\16\3\3\2\2\2\17\r\3\2\2\2\20\24\7\4\2\2\21\23\7"+
+		"\b\2\2\22\21\3\2\2\2\23\26\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\30\3"+
+		"\2\2\2\26\24\3\2\2\2\27\31\t\2\2\2\30\27\3\2\2\2\30\31\3\2\2\2\31\35\3"+
+		"\2\2\2\32\34\7\b\2\2\33\32\3\2\2\2\34\37\3\2\2\2\35\33\3\2\2\2\35\36\3"+
+		"\2\2\2\36!\3\2\2\2\37\35\3\2\2\2 \"\7\7\2\2! \3\2\2\2!\"\3\2\2\2\"&\3"+
+		"\2\2\2#%\7\b\2\2$#\3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'\3\2\2\2\'*\3\2\2\2("+
+		"&\3\2\2\2)+\t\3\2\2*)\3\2\2\2*+\3\2\2\2+\5\3\2\2\2,-\7\t\2\2-\7\3\2\2"+
+		"\2\t\r\24\30\35!&*";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

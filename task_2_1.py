@@ -35,9 +35,9 @@ def main():
     res = ""
     while not token.type == Token.EOF:
         print(get_token_type(token), token.text)
-        token = lexer.nextToken()
         if get_token_type(token) in ["REG", "COMMAND", "IMMEDIATE", "MEMORY"]: 
             res = res + get_token_type(token) + ' ' + token.text + '\n'
+        token = lexer.nextToken()
     
     output_file = open('task_2_1_result.txt', 'w+')
     output_file.write(res)
