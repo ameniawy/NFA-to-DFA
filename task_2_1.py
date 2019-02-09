@@ -32,10 +32,15 @@ def main():
  #   print(Trees.toStringTree(tree,None, parser))
 
     token = lexer.nextToken()
-
+    res = ""
     while not token.type == Token.EOF:
         print(get_token_type(token), token.text)
         token = lexer.nextToken()
+        if get_token_type(token) in ["REG", "COMMAND", "IMMEDIATE", "MEMORY"]: 
+            res = res + get_token_type(token) + ' ' + token.text + '\n'
+    
+    output_file = open('task_2_1_result.txt', 'w+')
+    output_file.write(res)
 
 
 if __name__ == '__main__':

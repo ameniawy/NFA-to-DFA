@@ -8,6 +8,15 @@ else:
 # This class defines a complete listener for a parse tree produced by task_2_1Parser.
 class task_2_1Listener(ParseTreeListener):
 
+    # Enter a parse tree produced by task_2_1Parser#start.
+    def enterStart(self, ctx:task_2_1Parser.StartContext):
+        pass
+
+    # Exit a parse tree produced by task_2_1Parser#start.
+    def exitStart(self, ctx:task_2_1Parser.StartContext):
+        pass
+
+
     # Enter a parse tree produced by task_2_1Parser#command.
     def enterCommand(self, ctx:task_2_1Parser.CommandContext):
         pass

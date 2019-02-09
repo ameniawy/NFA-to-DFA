@@ -1,5 +1,6 @@
 
 from collections import defaultdict
+import argparse
 
 class NFA:
     def __init__(self, alphabet, initial_state, final_state, transitions, states):
@@ -19,11 +20,11 @@ class DFA:
 
     def __str__(self):
         res = ''
-        res = res + ','.join([str(state) for state in self.states]) + '\n'
-        res = res + ','.join([str(char) for char in self.alphabet]) + '\n'
+        res = res + ', '.join([str(state) for state in self.states]) + '\n'
+        res = res + ', '.join([str(char) for char in self.alphabet]) + '\n'
         res = res + str(self.initial_state) + '\n'
-        res = res + ','.join([str(state) for state in self.final_states]) + '\n'
-        res = res + ','.join(['('+str(transition['arc_from'])+', '+str(transition['arc_condition'])+', '+str(transition['arc_to'])+')' for transition in self.transitions])
+        res = res + ', '.join([str(state) for state in self.final_states]) + '\n'
+        res = res + ', '.join(['('+str(transition['arc_from'])+', '+str(transition['arc_condition'])+', '+str(transition['arc_to'])+')' for transition in self.transitions])
         return res
         
 
@@ -99,7 +100,7 @@ def find_states_from_condition(from_states, condition, transitions, eps_dict):
 def nfa_to_dfa(nfa):
 
     closure = epsilon_closure(nfa)
-    table = create_table(test_nfa, closure)
+    table = create_table(nfa, closure)
 
     initial_state = 0
     final_states = [key for key in table.keys() if nfa.final_state in table[key]['nfa_state']]
@@ -122,46 +123,108 @@ def nfa_to_dfa(nfa):
 
     return dfa
 
-if __name__ == '__main__':
-    
-    initial_state = 'q0'
-    final_state = 'q3'
-    alphabet = ['a']
-    transitions = [
-        {
-            'arc_from': 'q0',
-            'arc_condition': ' ',
-            'arc_to': 'q2'
-        },
-        {
-            'arc_from': 'q2',
-            'arc_condition': ' ',
-            'arc_to': 'q3'
-        },
-        {
-            'arc_from': 'q0',
-            'arc_condition': 'a',
-            'arc_to': 'q1'
-        },
-        {
-            'arc_from': 'q1',
-            'arc_condition': ' ',
-            'arc_to': 'q4'
-        },
-        # {
-        #     'arc_from': 'q2',
-        #     'arc_condition': 'a',
-        #     'arc_to': 'q4'
-        # },
-        # {
-        #     'arc_from': 'q4',
-        #     'arc_condition': 'a',
-        #     'arc_to': 'q1'
-        # },
-    ]
-    states = ['q0', 'q1', 'q2', 'q3', 'q4']
 
-    test_nfa = NFA(alphabet, initial_state, final_state, transitions, states)
+def read_nfa_from_file(file_name):
+    with open(file_name, "r") as file:
+        lines = file.readlines()
+        states = lines[0].split(',')
+        states = [state.strip() for state in states]
+        alphabet = lines[1].split(',')
+        if ' ' in alphabet:
+            alphabet.remove(' ')
+        alphabet = [char.strip() for char in alphabet]
+        initial_state = lines[2].strip()
+        final_state = lines[3].strip()
+        # transitions = [for transition in file[4].split()]
+        transitions = list()
+        for transition_tuple in lines[4].replace("), (", "|").replace("(", "").replace(")","").split("|"):
+            splitted_tuple = [element.strip() if element != ' ' else element for element in transition_tuple.split(",")]
+            transition = {
+                'arc_from': splitted_tuple[0],
+                'arc_condition': splitted_tuple[1],
+                'arc_to': splitted_tuple[2]
+            }
+            transitions.append(transition)
+
+        # print(lines[4].replace("), (", "|").replace("(", "").replace(")","").split("|")[0].split(','))
+        # print("\n\n\n")
+        # print(states)
+        # print(alphabet)
+        # print(initial_state)
+        # print(final_state)
+        # print(transitions)
+        return NFA(alphabet, initial_state, final_state, transitions, states)
+
+
+
+
+
+
+if __name__ == '__main__':    
+    # initial_state = 'q0'
+    # final_state = 'q8'
+    # alphabet = ['s', 't']
+    # transitions = [
+    #     {
+    #         'arc_from': 'q0',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q8'
+    #     },
+    #     {
+    #         'arc_from': 'q0',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q1'
+    #     },
+    #     {
+    #         'arc_from': 'q1',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q2'
+    #     },
+    #     {
+    #         'arc_from': 'q1',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q4'
+    #     },
+    #     {
+    #         'arc_from': 'q2',
+    #         'arc_condition': 's',
+    #         'arc_to': 'q3'
+    #     },
+    #     {
+    #         'arc_from': 'q3',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q7'
+    #     },
+    #     {
+    #         'arc_from': 'q4',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q5'
+    #     },
+    #     {
+    #         'arc_from': 'q5',
+    #         'arc_condition': 't',
+    #         'arc_to': 'q6'
+    #     },
+    #     {
+    #         'arc_from': 'q6',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q7'
+    #     },
+
+    #     {
+    #         'arc_from': 'q7',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q1'
+    #     },
+    #     {
+    #         'arc_from': 'q7',
+    #         'arc_condition': ' ',
+    #         'arc_to': 'q8'
+    #     },
+    # ]
+    # states = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']
+
+    # test_nfa = NFA(alphabet, initial_state, final_state, transitions, states)
 
     # closure = epsilon_closure(test_nfa)
 
@@ -171,6 +234,22 @@ if __name__ == '__main__':
     # print(table)
     # print()
     # print(closure)
-    print(nfa_to_dfa(test_nfa))
+    parser = argparse.ArgumentParser(add_help=True, description='Sample Commandline')
+
+    parser.add_argument('--file', action="store", help="path of file to take as input", nargs="?",
+                        metavar="file")
+
+    args = parser.parse_args()
+
+    print(args.file)
+
+    loaded_nfa = read_nfa_from_file(args.file)
+
+    dfa = nfa_to_dfa(loaded_nfa)
+    print(dfa)
+
+    output_file = open('task_2_2_result.txt', 'w+')
+    output_file.write(str(dfa))
+
 
     # print(find_states_from_condition(closure['q1'], 'b', test_nfa.transitions, closure))

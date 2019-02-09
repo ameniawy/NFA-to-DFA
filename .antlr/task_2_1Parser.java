@@ -18,9 +18,9 @@ public class task_2_1Parser extends Parser {
 	public static final int
 		REG=1, COMMAND=2, IMMEDIATE=3, MEMORY=4, COMMA=5, SPACE=6, NEWLINE=7;
 	public static final int
-		RULE_command = 0, RULE_newline = 1;
+		RULE_start = 0, RULE_command = 1, RULE_newline = 2;
 	public static final String[] ruleNames = {
-		"command", "newline"
+		"start", "command", "newline"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -78,6 +78,61 @@ public class task_2_1Parser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+	public static class StartContext extends ParserRuleContext {
+		public List<CommandContext> command() {
+			return getRuleContexts(CommandContext.class);
+		}
+		public CommandContext command(int i) {
+			return getRuleContext(CommandContext.class,i);
+		}
+		public List<NewlineContext> newline() {
+			return getRuleContexts(NewlineContext.class);
+		}
+		public NewlineContext newline(int i) {
+			return getRuleContext(NewlineContext.class,i);
+		}
+		public StartContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_start; }
+	}
+
+	public final StartContext start() throws RecognitionException {
+		StartContext _localctx = new StartContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_start);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(11);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMAND) {
+				{
+				{
+				setState(6);
+				command();
+				setState(7);
+				newline();
+				}
+				}
+				setState(13);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class CommandContext extends ParserRuleContext {
 		public TerminalNode COMMAND() { return getToken(task_2_1Parser.COMMAND, 0); }
 		public List<TerminalNode> REG() { return getTokens(task_2_1Parser.REG); }
@@ -99,53 +154,53 @@ public class task_2_1Parser extends Parser {
 
 	public final CommandContext command() throws RecognitionException {
 		CommandContext _localctx = new CommandContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_command);
+		enterRule(_localctx, 2, RULE_command);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(4);
+			setState(14);
 			match(COMMAND);
-			setState(6);
+			setState(16);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				{
-				setState(5);
+				setState(15);
 				match(REG);
 				}
 				break;
 			}
-			setState(9);
+			setState(19);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COMMA) {
 				{
-				setState(8);
+				setState(18);
 				match(COMMA);
 				}
 			}
 
-			setState(14);
+			setState(24);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SPACE) {
 				{
 				{
-				setState(11);
+				setState(21);
 				match(SPACE);
 				}
 				}
-				setState(16);
+				setState(26);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(18);
+			setState(28);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << REG) | (1L << IMMEDIATE) | (1L << MEMORY))) != 0)) {
 				{
-				setState(17);
+				setState(27);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << REG) | (1L << IMMEDIATE) | (1L << MEMORY))) != 0)) ) {
 				_errHandler.recoverInline(this);
@@ -181,11 +236,11 @@ public class task_2_1Parser extends Parser {
 
 	public final NewlineContext newline() throws RecognitionException {
 		NewlineContext _localctx = new NewlineContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_newline);
+		enterRule(_localctx, 4, RULE_newline);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(20);
+			setState(30);
 			match(NEWLINE);
 			}
 		}
@@ -201,14 +256,17 @@ public class task_2_1Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t\31\4\2\t\2\4\3"+
-		"\t\3\3\2\3\2\5\2\t\n\2\3\2\5\2\f\n\2\3\2\7\2\17\n\2\f\2\16\2\22\13\2\3"+
-		"\2\5\2\25\n\2\3\3\3\3\3\3\2\2\4\2\4\2\3\4\2\3\3\5\6\2\32\2\6\3\2\2\2\4"+
-		"\26\3\2\2\2\6\b\7\4\2\2\7\t\7\3\2\2\b\7\3\2\2\2\b\t\3\2\2\2\t\13\3\2\2"+
-		"\2\n\f\7\7\2\2\13\n\3\2\2\2\13\f\3\2\2\2\f\20\3\2\2\2\r\17\7\b\2\2\16"+
-		"\r\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\20\21\3\2\2\2\21\24\3\2\2\2\22"+
-		"\20\3\2\2\2\23\25\t\2\2\2\24\23\3\2\2\2\24\25\3\2\2\2\25\3\3\2\2\2\26"+
-		"\27\7\t\2\2\27\5\3\2\2\2\6\b\13\20\24";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t#\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\3\2\3\2\3\2\7\2\f\n\2\f\2\16\2\17\13\2\3\3\3\3\5\3\23\n\3\3"+
+		"\3\5\3\26\n\3\3\3\7\3\31\n\3\f\3\16\3\34\13\3\3\3\5\3\37\n\3\3\4\3\4\3"+
+		"\4\2\2\5\2\4\6\2\3\4\2\3\3\5\6\2$\2\r\3\2\2\2\4\20\3\2\2\2\6 \3\2\2\2"+
+		"\b\t\5\4\3\2\t\n\5\6\4\2\n\f\3\2\2\2\13\b\3\2\2\2\f\17\3\2\2\2\r\13\3"+
+		"\2\2\2\r\16\3\2\2\2\16\3\3\2\2\2\17\r\3\2\2\2\20\22\7\4\2\2\21\23\7\3"+
+		"\2\2\22\21\3\2\2\2\22\23\3\2\2\2\23\25\3\2\2\2\24\26\7\7\2\2\25\24\3\2"+
+		"\2\2\25\26\3\2\2\2\26\32\3\2\2\2\27\31\7\b\2\2\30\27\3\2\2\2\31\34\3\2"+
+		"\2\2\32\30\3\2\2\2\32\33\3\2\2\2\33\36\3\2\2\2\34\32\3\2\2\2\35\37\t\2"+
+		"\2\2\36\35\3\2\2\2\36\37\3\2\2\2\37\5\3\2\2\2 !\7\t\2\2!\7\3\2\2\2\7\r"+
+		"\22\25\32\36";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
