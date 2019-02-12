@@ -136,8 +136,8 @@ def read_nfa_from_file(file_name):
         initial_state = lines[2].strip()
         final_state = lines[3].strip()
         transitions = list()
-        for transition_tuple in lines[4].replace("), (", "|").replace("(", "").replace(")","").split("|"):
-            splitted_tuple = [element.strip() if element != ' ' else element for element in transition_tuple.split(",")]
+        for transition_tuple in lines[4].replace(" ","").replace("),(", "|").replace("(", "").replace(")","").split("|"):
+            splitted_tuple = [element.strip() if element != '' else ' ' for element in transition_tuple.split(",")]
             transition = {
                 'arc_from': splitted_tuple[0],
                 'arc_condition': splitted_tuple[1],
