@@ -2,6 +2,7 @@
 from collections import defaultdict
 import argparse
 
+
 class NFA:
     def __init__(self, alphabet, initial_state, final_state, transitions, states):
         self.alphabet = alphabet
@@ -9,6 +10,7 @@ class NFA:
         self.final_state = final_state
         self.transitions = transitions
         self.states = states
+
 
 class DFA:
     def __init__(self, alphabet, initial_state, final_states, transitions, states):
@@ -23,14 +25,17 @@ class DFA:
         res = res + ', '.join([str(state) for state in self.states]) + '\n'
         res = res + ', '.join([str(char) for char in self.alphabet]) + '\n'
         res = res + str(self.initial_state) + '\n'
-        res = res + ', '.join([str(state) for state in self.final_states]) + '\n'
-        res = res + ', '.join(['('+str(transition['arc_from'])+', '+str(transition['arc_condition'])+', '+str(transition['arc_to'])+')' for transition in self.transitions])
+        res = res + ', '.join([str(state)
+                               for state in self.final_states]) + '\n'
+        res = res + ', '.join(['('+str(transition['arc_from'])+', '+str(transition['arc_condition']) +
+                               ', '+str(transition['arc_to'])+')' for transition in self.transitions])
         return res
-        
+
 
 def dfs(state, transitions):
 
-    valid_transitions = [transition['arc_to'] for transition in transitions if transition['arc_from'] == state and transition['arc_condition'] == ' ']
+    valid_transitions = [transition['arc_to']
+                         for transition in transitions if transition['arc_from'] == state and transition['arc_condition'] == ' ']
 
     if not valid_transitions:
         return valid_transitions
@@ -66,8 +71,10 @@ def create_table(NFA, eps_dict):
 
         current_nfa_state = table[pointer]
         for char in NFA.alphabet:
-            found_states = find_states_from_condition(current_nfa_state['nfa_state'], char, NFA.transitions, eps_dict)
-            search_result = [key for key in table.keys() if 'nfa_state' in table[key].keys() and set(table[key]['nfa_state']) == set(found_states)]
+            found_states = find_states_from_condition(
+                current_nfa_state['nfa_state'], char, NFA.transitions, eps_dict)
+            search_result = [key for key in table.keys() if 'nfa_state' in table[key].keys(
+            ) and set(table[key]['nfa_state']) == set(found_states)]
             if search_result:
                 table[pointer][char] = search_result[0]
             else:
@@ -81,7 +88,7 @@ def create_table(NFA, eps_dict):
         pointer += 1
 
     return table
-                
+
 
 def find_states_from_condition(from_states, condition, transitions, eps_dict):
     res = set()
@@ -103,7 +110,9 @@ def nfa_to_dfa(nfa):
     table = create_table(nfa, closure)
 
     initial_state = 0
-    final_states = [key for key in table.keys() if nfa.final_state in table[key]['nfa_state']]
+    final_states = [key for key in table.keys(
+    ) if nfa.final_state in table[key]['nfa_state']]
+
     alphabet = nfa.alphabet
     transitions = list()
 
@@ -119,7 +128,17 @@ def nfa_to_dfa(nfa):
                 'arc_to': table[state][char]
             })
 
-    dfa = DFA(alphabet, initial_state, final_states, transitions, [i for i in range(len(table.keys()))] + (['DEAD'] if found_dead else []))
+    if found_dead:
+        for char in alphabet:
+            if char != ' ':
+                transitions.append({
+                    'arc_from': 'DEAD',
+                    'arc_condition': char,
+                    'arc_to': 'DEAD'
+                })
+
+    dfa = DFA(alphabet, initial_state, final_states, transitions, [
+              i for i in range(len(table.keys()))] + (['DEAD'] if found_dead else []))
 
     return dfa
 
@@ -136,8 +155,9 @@ def read_nfa_from_file(file_name):
         initial_state = lines[2].strip()
         final_state = lines[3].strip()
         transitions = list()
-        for transition_tuple in lines[4].replace(" ","").replace("),(", "|").replace("(", "").replace(")","").split("|"):
-            splitted_tuple = [element.strip() if element != '' else ' ' for element in transition_tuple.split(",")]
+        for transition_tuple in lines[4].replace(" ", "").replace("),(", "|").replace("(", "").replace(")", "").split("|"):
+            splitted_tuple = [element.strip(
+            ) if element != '' else ' ' for element in transition_tuple.split(",")]
             transition = {
                 'arc_from': splitted_tuple[0],
                 'arc_condition': splitted_tuple[1],
@@ -148,8 +168,9 @@ def read_nfa_from_file(file_name):
         return NFA(alphabet, initial_state, final_state, transitions, states)
 
 
-if __name__ == '__main__':    
-    parser = argparse.ArgumentParser(add_help=True, description='Sample Commandline')
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        add_help=True, description='Sample Commandline')
 
     parser.add_argument('--file', action="store", help="path of file to take as input", nargs="?",
                         metavar="file")
